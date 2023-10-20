@@ -4,6 +4,7 @@ import ProductModel from "../db/sequelize/model/product.model";
 
 export default class ProductRepository implements ProductRepositoryInterface {
 
+
   async create(entity: Product): Promise<void> {
 
     await ProductModel.create({
@@ -47,14 +48,4 @@ export default class ProductRepository implements ProductRepositoryInterface {
       productModel.price
     ));
   }
-
-  // async buyAKombiVan(): Promise<Product> {
-  //   const productModel = await ProductModel.findOne({ where: { name: "Kombi Van" } });
-
-  //   return new Product(
-  //     productModel!.id,
-  //     productModel!.name,
-  //     productModel!.price
-  //   )
-  // }
 }
