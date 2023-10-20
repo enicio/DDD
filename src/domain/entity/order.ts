@@ -14,6 +14,19 @@ export default class Order {
     this._total = this.calculateTotal();
     this.validate();
   }
+
+  get id(): string {
+    return this._id;
+  }
+
+  get customerId(): string {
+    return this._customerId;
+  }
+
+  get items(): OrderItem[] {
+    return this._items;
+  }
+
   calculateTotal(): number {
     return this._items.reduce((total, item) => total + item.orderItemTotal(), 0);
   }
