@@ -1,51 +1,49 @@
-import Product from "../../domain/entity/product";
-import ProductRepositoryInterface from "../../domain/repository/product-repository.interface";
-import ProductModel from "../db/sequelize/model/product.model";
+import Product from '../../domain/entity/product'
+import type ProductRepositoryInterface from '../../domain/repository/product-repository.interface'
+import ProductModel from '../db/sequelize/model/product.model'
 
 export default class ProductRepository implements ProductRepositoryInterface {
-
-
-  async create(entity: Product): Promise<void> {
-
+  async create (entity: Product): Promise<void> {
     await ProductModel.create({
       id: entity.id,
       name: entity.name,
-      price: entity.price,
-    });
+      price: entity.price
+    })
   }
 
-  async update(entity: Product): Promise<void> {
-   await ProductModel.update(
+  async update (entity: Product): Promise<void> {
+    await ProductModel.update(
       {
         name: entity.name,
-        price: entity.price,
+        price: entity.price
       },
       {
         where: {
-                id: entity.id
+          id: entity.id
         }
       }
-   );
+    )
   }
 
-  async find(id: string): Promise<Product> {
-    const productModel = await ProductModel.findOne({ where: { id } });
+  async find (id: string): Promise<Product> {
+    const productModel = await ProductModel.findOne({ where: { id } })
+
+    if (productModel === null) throw new Error('Product not found')
 
     return new Product(
-      productModel!.id,
-      productModel!.name,
-      productModel!.price
+      productModel.id,
+      productModel.name,
+      productModel.price
     )
-
   }
 
-  async findAll(): Promise<Product[]> {
-    const productModels = await ProductModel.findAll();
+  async findAll (): Promise<Product[]> {
+    const productModels = await ProductModel.findAll()
 
     return productModels.map(productModel => new Product(
       productModel.id,
       productModel.name,
       productModel.price
-    ));
+    ))
   }
 }

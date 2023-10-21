@@ -1,49 +1,50 @@
 export default class Product {
-  private _id: string;
-  private _name: string;
-  private _price: number;
+  private readonly _id: string
+  private _name: string
+  private _price: number
 
-  constructor(id: string, name: string, price: number) {
-    this._id = id;
-    this._name = name;
-    this._price = price;
-    this.validate();
+  constructor (id: string, name: string, price: number) {
+    this._id = id
+    this._name = name
+    this._price = price
+    this.validate()
   }
 
-  get id(): string {
-    return this._id;
+  get id (): string {
+    return this._id
   }
 
-  get name(): string {
-    return this._name;
+  get name (): string {
+    return this._name
   };
-  changeName(name: string): void {
+
+  changeName (name: string): void {
     if (name.length === 0) {
-      throw new Error("Name cannot be a empty value");
+      throw new Error('Name cannot be a empty value')
     }
-    this._name = name;
+    this._name = name
   };
 
-  get price(): number {
-    return this._price;
+  get price (): number {
+    return this._price
   };
 
-  changePrice(price: number): void {
+  changePrice (price: number): void {
     if (price < 0) {
-      throw new Error("Price must be greater than 0");
+      throw new Error('Price must be greater than 0')
     }
-    this._price = price;
+    this._price = price
   };
 
-  validate() {
+  validate (): void {
     if (this._id.length === 0) {
-      throw new Error("Id is required");
+      throw new Error('Id is required')
     }
     if (this._name.length === 0) {
-      throw new Error("Name is required");
+      throw new Error('Name is required')
     }
     if (this._price < 0) {
-      throw new Error("Price must be greater than 0");
+      throw new Error('Price must be greater than 0')
     }
   }
 }
