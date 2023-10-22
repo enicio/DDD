@@ -105,7 +105,18 @@ export default class OrderRepository implements OrderRepositoryInterface {
   }
 
   async delete (id: string): Promise<number> {
-    const rowsDeleted = await OrderModel.destroy({ where: { id } })
-    return rowsDeleted
+    try {
+      const order = await OrderModel.findByPk(id)
+
+      if (order === null) {
+        throw new Error(`Order with ID ${id} not found.`)
+      }
+
+      const rowsDeleted = await OrderModel.destroy({ where: { id } })
+
+      return rowsDeleted
+    } catch (error: any) {
+      throw new Error(`Something went wrong to delete order: ${error.message}`)
+    }
   }
 }

@@ -72,11 +72,19 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     }
   }
 
-  async delete (id: string): Promise<void> {
+  async delete (id: string): Promise<number> {
     try {
-      await CustomerModel.destroy({ where: { id } })
-    } catch (error) {
-      throw new Error('Something went wrong to delete customer')
+      const order = await CustomerModel.findByPk(id)
+
+      if (order === null) {
+        throw new Error(`Customer with ID ${id} not found.`)
+      }
+
+      const rowsDeleted = await CustomerModel.destroy({ where: { id } })
+
+      return rowsDeleted
+    } catch (error: any) {
+      throw new Error(`Something went wrong to delete customer: ${error.message}`)
     }
   }
 }

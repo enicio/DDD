@@ -253,7 +253,7 @@ describe('CustomerRepository', () => {
 
     await orderRepository.create(newOrder)
 
-    await orderRepository.delete('1')
+    const rowsDeleted = await orderRepository.delete('1')
 
     const orderModel = await OrderModel.findOne(
       {
@@ -262,11 +262,12 @@ describe('CustomerRepository', () => {
       })
 
     expect(orderModel).toBeNull()
+    expect(rowsDeleted).toBe(1)
   })
 
   it('should return zero when try to delete a order that not exists', async () => {
     const orderRepository = new OrderRepository()
 
-    expect(await orderRepository.delete('1')).toEqual(0)
+    await expect(orderRepository.delete('1')).rejects.toThrow(new Error('Something went wrong to delete order: Order with ID 1 not found.'))
   })
 })

@@ -133,4 +133,10 @@ describe('CustomerRepository', () => {
     const customerFinded = await CustomerModel.findOne({ where: { id: '35' } })
     expect(customerFinded).toBeNull()
   })
+
+  it('should return zero when try to delete a order that not exists', async () => {
+    const customerRepository = new CustomerRepository()
+
+    await expect(customerRepository.delete('1')).rejects.toThrow(new Error('Something went wrong to delete customer: Customer with ID 1 not found.'))
+  })
 })
